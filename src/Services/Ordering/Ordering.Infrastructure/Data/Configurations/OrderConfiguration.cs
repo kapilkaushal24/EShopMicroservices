@@ -59,7 +59,7 @@ namespace Ordering.Infrastructure.Data.Configurations
                         .HasMaxLength(50);
 
                     addressBuilder.Property(a => a.ZipCode)
-                        .HasMaxLength(5)
+                        .HasMaxLength(10)
                         .IsRequired();
                 });
 
@@ -88,7 +88,7 @@ namespace Ordering.Infrastructure.Data.Configurations
                         .HasMaxLength(50);
 
                     addressBuilder.Property(a => a.ZipCode)
-                        .HasMaxLength(5)
+                        .HasMaxLength(10)
                         .IsRequired();
                   });
 

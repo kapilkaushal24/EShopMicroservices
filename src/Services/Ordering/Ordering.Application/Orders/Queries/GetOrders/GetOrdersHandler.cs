@@ -1,4 +1,6 @@
 ﻿
+using BuildingBlocks.Pagination;
+
 namespace Ordering.Application.Orders.Queries.GetOrders
 {
     public class GetOrdersHandler(IApplicationDbContext dbContext) : IQueryHandler<GetOrdersQuery, GetOrdersResult>

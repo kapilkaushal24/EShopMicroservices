@@ -12,16 +12,16 @@ namespace Ordering.Application.Orders.Commands.UpdateOrder
             //return result
 
 
-            var orderId = OrderId.Of(command.orderDto.Id);
+            var orderId = OrderId.Of(command.Order.Id);
             var order = await dbContext.Orders
                 .FindAsync([orderId], cancellationToken: cancellationToken);
 
             if (order is null)
             {
-                throw new OrderNotFoundException(command.orderDto.Id);
+                throw new OrderNotFoundException(command.Order.Id);
             }
 
-            UpdateOrderWithNewValues(order, command.orderDto);
+            UpdateOrderWithNewValues(order, command.Order);
 
             dbContext.Orders.Update(order);
             await dbContext.SaveChangesAsync(cancellationToken);
