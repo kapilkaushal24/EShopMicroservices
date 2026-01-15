@@ -13,6 +13,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    environment: Basket.API
 
     steps:
     - uses: actions/checkout@v4
@@ -26,3 +27,13 @@ jobs:
       run: dotnet build src/eshop-microservices.slnx --no-restore
     - name: Test
       run: dotnet test src/eshop-microservices.slnx --no-build --verbosity normal
+
+    - name: Build and push Docker Image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: kapilkaushal24/basket.api
+        registry: docker.io
+        dockerfile: src/Services/Basket/Basket.API/Dockerfile
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        tags: latest, master-${{ github.sha }}
