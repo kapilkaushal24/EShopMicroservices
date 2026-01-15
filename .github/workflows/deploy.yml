@@ -34,6 +34,7 @@ jobs:
         image: kapilkaushal24/basket.api
         registry: docker.io
         dockerfile: src/Services/Basket/Basket.API/Dockerfile
+        directory: ./src
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         tags: latest, master-${{ github.sha }}
