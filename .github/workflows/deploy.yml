@@ -25,7 +25,7 @@ jobs:
     - name: Build & Push Basket.API
       run: |
         docker build -t kapilkaushal24/basket.api:latest \
-          -f src/Services/Basket/Basket.API/Dockerfile .
+          -f src/Services/Basket/Basket.API/Dockerfile src
         docker push kapilkaushal24/basket.api:latest
 
     - name: Trigger Render Deploy
@@ -36,7 +36,7 @@ jobs:
     - name: Build & Push Discount.GRPC
       run: |
         docker build -t kapilkaushal24/discount.grpc:latest \
-          -f src/Services/Discount/Discount.GRPC/Dockerfile .
+          -f src/Services/Discount/Discount.GRPC/Dockerfile src
         docker push kapilkaushal24/discount.grpc:latest
 
     # - name: Deploy Discount.GRPC
