@@ -36,7 +36,7 @@ jobs:
     - name: Build & Push Discount.GRPC
       run: |
         docker build -t kapilkaushal24/discount.grpc:latest \
-          -f src/Services/Discount/Discount.GRPC/Dockerfile src
+          -f src/Services/Discount/Discount.Grpc/Dockerfile src
         docker push kapilkaushal24/discount.grpc:latest
 
     # - name: Deploy Discount.GRPC
