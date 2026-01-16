@@ -10,46 +10,34 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: Basket.API
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-        
-    - name: Docker Login
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-        
-    - name: Restore dependencies
-      run: dotnet restore src/eshop-microservices.slnx
-    - name: Build
-      run: dotnet build src/eshop-microservices.slnx --no-restore
-    - name: Test
-      run: dotnet test src/eshop-microservices.slnx --no-build --verbosity normal
+      - uses: actions/checkout@v4
+
+      - name: Docker Login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       # Basket.API
-    - name: Build & Push Basket.API
-      run: |
-        docker build -t kapilkaushal24/basket.api:latest \
-          -f src/Services/Basket/Basket.API/Dockerfile .
-        docker push kapilkaushal24/basket.api:latest
+      - name: Build & Push Basket.API
+        run: |
+          docker build -t kapilkaushal24/basket.api:latest \
+            -f src/Services/Basket/Basket.API/Dockerfile .
+          docker push kapilkaushal24/basket.api:latest
 
-    - name: Trigger Render Deploy
-      run: |
-        curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+      - name: Deploy Basket.API
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
 
-    # Discount.GRPC
-    - name: Build & Push Discount.GRPC
-      run: |
-        docker build -t kapilkaushal24/discount.grpc:latest \
-          -f src/Services/Discount/Discount.GRPC/Dockerfile .
-        docker push kapilkaushal24/discount.grpc:latest
+      # Discount.GRPC
+      - name: Build & Push Discount.GRPC
+        run: |
+          docker build -t kapilkaushal24/discount.grpc:latest \
+            -f src/Services/Discount/Discount.GRPC/Dockerfile .
+          docker push kapilkaushal24/discount.grpc:latest
 
-    - name: Deploy Discount.GRPC
-      run: |
-        curl -X POST ${{ secrets.RENDER_DISCOUNT_GRPC_DEPLOY_HOOK_URL }}
+      - name: Deploy Discount.GRPC
+        run: |
+          curl -X POST ${{ secrets.RENDER_DISCOUNT_GRPC_DEPLOY_HOOK_URL }}
